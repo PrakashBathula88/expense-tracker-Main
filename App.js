@@ -1,9 +1,9 @@
-import SignUp from "./Components/SignUp/Signup";
+import Allroutes from "./Components/Allroutes/Allroutes";
 
 function App() {
   return (
-    <div className="App">
-      <SignUp />
+    <div >
+     <Allroutes/>
     </div>
   );
 }

@@ -1,0 +1,11 @@
+.All_routing {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+  width: 200px;
+  text-decoration: none;
+}
+.All_routing li {
+  text-decoration: none;
+  color: red;
+}
