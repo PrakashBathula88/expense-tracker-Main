@@ -1,13 +1,15 @@
 import React, { useContext, useRef, useState } from "react";
-// import AuthContext from "../SignupProvider/Signinprovider";
 import "../SignUp/Signin.css";
 import Profile from "../Profile/Profile";
 import { CgProfile } from "react-icons/cg";
+import AuthContext from "../SignupProvider/Signinprovider";
+
 export default function SignUp() {
-  // const { Login, isLoggedin } = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
   const [profileInComplete, setProfileInComplete] = useState(false);
-  const [showprofile, setshowprofile] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [emailVerification, setEmailVerification] = useState(false);
+  const authCtx = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPassRef = useRef();
@@ -30,35 +32,80 @@ export default function SignUp() {
       return;
     }
 
-    try {
-      const url = isLogin
-        ? "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI"
-        : "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
-
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ email, password, returnSecureToken: true }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // const data = await response.json();
-      // console.log(data);
-      // Login(data.idToken);
-      setProfileInComplete(true);
-      console.log(profileInComplete);
-    } catch (err) {
-      console.error(err);
-      // throw new Error("AUTHENTICATION FAILED");
+    let url;
+    if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
+    } else {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
     }
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          setProfileInComplete(true);
+          setEmailVerification(false);
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            const errorMessage = "Authentication failed";
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idtoken);
+      })
+      .catch((err) => {});
+  };
+
+  const emailVerifyHandling = () => {
+    let url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        requestType: "VERIFY_EMAIL",
+        idToken: authCtx.token,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          setEmailVerification(true);
+          alert("VERIFICATION EMAIL SENT = PLEASE CHECK YOUR EMAIL INBOX");
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            const errorMessage = "ERROR verification email";
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {})
+      .catch((err) => {});
   };
 
   return (
     <>
-      {!profileInComplete && !showprofile ? (
+      {!profileInComplete && !showProfile ? (
         <div className="container">
           <div className="All_sign_in">
             <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+
             <form onSubmit={submitting} className="form_elements">
               <input
                 type="email"
@@ -94,10 +141,17 @@ export default function SignUp() {
             </button>
           </div>{" "}
         </div>
-      ) : !showprofile ? (
+      ) : !showProfile ? (
         <div className="profile-incomplete-container">
-          <p>Welcome to expense tracker </p>
-          <h4 onClick={() => setshowprofile(true)}>Complete Profile<CgProfile  className="icon"/></h4>
+          <p>Welcome to expense tracker</p>
+          <h4 onClick={() => setShowProfile(true)}>
+            Complete Profile <CgProfile className="icon" />
+          </h4>
+          {!emailVerification && (
+            <button onClick={emailVerifyHandling} className="btn">
+              Verify Email
+            </button>
+          )}
         </div>
       ) : (
         <Profile />

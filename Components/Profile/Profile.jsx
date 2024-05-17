@@ -1,5 +1,5 @@
-import React, { useRef, useContext } from "react";
-import AuthContext from "../SignupProvider/Signinprovider";
+import React, { useRef } from "react";
+// import AuthContext from "../SignupProvider/Signinprovider";
 import { FaGithub } from "react-icons/fa";
 import { CiGlobe } from "react-icons/ci";
 import "../SignUp/Signin.css";
@@ -36,10 +36,10 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-      <p>
+      {/* <p>
         Your profile is 64% completed. A completed profile has higher chances of<br/>
         landing a job. Complete Now
-      </p>
+      </p> */}
       <h1 className="contact_details">Contact Details</h1>
       <h1 className="icon_cancel">
         <MdOutlineCancelPresentation />
