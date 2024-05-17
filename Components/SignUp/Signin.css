@@ -9,14 +9,14 @@
   backdrop-filter: blur(0.4px);
   background-image: url("https://c4.wallpaperflare.com/wallpaper/560/670/470/5bd2885491593-wallpaper-preview.jpg");
 }
-.forgot{
- margin-left: 60px;
- margin-top: -30px;
- font-size: 25px;
- text-decoration:underline;
- color: rgb(0, 0, 255);
- text-decoration-color: black;
-cursor: pointer;
+.forgot {
+  margin-left: 60px;
+  margin-top: -30px;
+  font-size: 25px;
+  text-decoration: underline;
+  color: rgb(0, 0, 255);
+  text-decoration-color: black;
+  cursor: pointer;
 }
 .have {
   margin-top: 264px;
@@ -125,4 +125,91 @@ cursor: pointer;
 .btn:active {
   filter: brightness(0.7);
   transform: scale(0.98);
+}
+
+.profile-incomplete-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid;
+  margin-top: 30px;
+}
+.profile-incomplete-container p {
+  font-size: 17px;
+  font-family: "Roboto", "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  margin-left: 30px;
+  color: blue;
+}
+.profile-incomplete-container h4 {
+  margin-right: 50px;
+  cursor: pointer;
+  top: -10px;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: black;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.5em 0.5em;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  background: rgba(60, 73, 203, 0.35);
+  box-shadow: 0 0px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(14.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  -webkit-backdrop-filter: blur(14.5px);
+}
+.profile-incomplete-container h4:hover {
+  box-shadow: 0px 0 32px 0 rgba(31, 38, 135, 0.37),
+    0px 0 32px 0 rgba(31, 38, 135, 0.37), 0 0 42px 0px rgba(31, 38, 135, 0.37),
+    0 0 52px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+}
+.profile-incomplete-container h4 ::before {
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  box-shadow: 0 0px 32px 0 rgba(31, 38, 135, 0.37);
+}
+.profile-incomplete-container h4 :before {
+  content: "Button";
+  position: absolute;
+  background: blue;
+  width: 90%;
+  height: 80%;
+  background: rgba(26, 18, 241, 0.25);
+  backdrop-filter: blur(18.5px);
+  -webkit-backdrop-filter: blur(18.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: 0.4s;
+}
+
+.profile-incomplete-container h4 hover::before {
+  background: rgba(51, 57, 236, 0.4);
+  box-shadow: 1px 1px 2px 0 rgba(31, 38, 135, 0.37),
+    2px 2px 2px 0 rgba(31, 38, 135, 0.37), 0 0px 32px 0 rgba(31, 38, 135, 0.37),
+    0 0px 32px 1px rgba(31, 38, 135, 0.37), 0 0px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.profile-incomplete-container h4 :active::before {
+  transform: scale(0.67);
+}
+.icon {
+  font-size: 60px;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }

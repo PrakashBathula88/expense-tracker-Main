@@ -1,12 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
-import AuthContext from "../SignupProvider/Signinprovider";
+// import AuthContext from "../SignupProvider/Signinprovider";
 import "../SignUp/Signin.css";
 import Profile from "../Profile/Profile";
-
+import { CgProfile } from "react-icons/cg";
 export default function SignUp() {
-  const { login, isLoggedin } = useContext(AuthContext);
+  // const { Login, isLoggedin } = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
-  const [profileComplete, setProfileComplete] = useState(false);
+  const [profileInComplete, setProfileInComplete] = useState(false);
+  const [showprofile, setshowprofile] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPassRef = useRef();
@@ -20,7 +21,9 @@ export default function SignUp() {
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const confirm = confirmPassRef.current ? confirmPassRef.current.value : null;
+    const confirm = confirmPassRef.current
+      ? confirmPassRef.current.value
+      : null;
 
     if (!isLogin && password !== confirm) {
       console.error("PASSWORDS DO NOT MATCH");
@@ -39,62 +42,66 @@ export default function SignUp() {
           "Content-Type": "application/json",
         },
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        login(data.idToken);
-        setProfileComplete(false); 
-      } else {
-        throw new Error("AUTHENTICATION FAILED");
-      }
+      // const data = await response.json();
+      // console.log(data);
+      // Login(data.idToken);
+      setProfileInComplete(true);
+      console.log(profileInComplete);
     } catch (err) {
       console.error(err);
+      // throw new Error("AUTHENTICATION FAILED");
     }
   };
 
-  if (isLoggedin && !profileComplete) {
-    return (
-      <div className="profile-incomplete-container">
-        <p>Your profile is incomplete. Please complete your profile.</p>
-        <button onClick={() => setProfileComplete(true)}>Complete Profile</button>
-      </div>
-    );
-  }
-
   return (
-    <div className="container">
-      {profileComplete ? (
-        <Profile setProfileComplete={setProfileComplete} />
-      ) : (
-        <div className="All_sign_in">
-          <h1>{isLogin ? "Login" : "Sign Up"}</h1>
-          <form onSubmit={submitting} className="form_elements">
-            <input type="email" placeholder="E-MAIL" ref={emailRef} required />
-            <input
-              type="password"
-              placeholder="Password"
-              ref={passwordRef}
-              required
-            />
-            {!isLogin && (
+    <>
+      {!profileInComplete && !showprofile ? (
+        <div className="container">
+          <div className="All_sign_in">
+            <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+            <form onSubmit={submitting} className="form_elements">
               <input
-                type="password"
-                placeholder="Confirm Password"
-                ref={confirmPassRef}
+                type="email"
+                placeholder="E-MAIL"
+                ref={emailRef}
                 required
               />
-            )}
-            <button type="submit" className="btn">
-              {isLogin ? "Login" : "Sign Up"}
+              <input
+                type="password"
+                placeholder="Password"
+                ref={passwordRef}
+                required
+              />
+              {!isLogin && (
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  ref={confirmPassRef}
+                  required
+                />
+              )}
+
+              <button type="submit" className="btn">
+                {isLogin ? "Login" : "Sign Up"}
+              </button>
+
+              {isLogin && <p className="forgot">Forgot password</p>}
+            </form>
+            <button className="have" onClick={switchHandler}>
+              {isLogin
+                ? "Don't have an account? Sign Up"
+                : "Have an account? Login"}
             </button>
-            {isLogin && <p className="forgot">Forgot password</p>}
-          </form>
-          <button className="have" onClick={switchHandler}>
-            {isLogin ? "Don't have an account? Sign Up" : "Have an account? Login"}
-          </button>
+          </div>{" "}
         </div>
+      ) : !showprofile ? (
+        <div className="profile-incomplete-container">
+          <p>Welcome to expense tracker </p>
+          <h4 onClick={() => setshowprofile(true)}>Complete Profile<CgProfile  className="icon"/></h4>
+        </div>
+      ) : (
+        <Profile />
       )}
-    </div>
+    </>
   );
 }
