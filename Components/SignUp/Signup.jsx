@@ -3,6 +3,7 @@ import "../SignUp/Signin.css";
 import Profile from "../Profile/Profile";
 import { CgProfile } from "react-icons/cg";
 import AuthContext from "../SignupProvider/Signinprovider";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +14,7 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPassRef = useRef();
+  const navigate=useNavigate();
 
   const switchHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -99,6 +101,10 @@ export default function SignUp() {
       .catch((err) => {});
   };
 
+  const forgotclick=()=>{
+    navigate("/forgot");
+  }
+
   return (
     <>
       {!profileInComplete && !showProfile ? (
@@ -132,7 +138,7 @@ export default function SignUp() {
                 {isLogin ? "Login" : "Sign Up"}
               </button>
 
-              {isLogin && <p className="forgot">Forgot password</p>}
+              {isLogin && <p className="forgot" onClick={forgotclick}>Forgot password</p>}
             </form>
             <button className="have" onClick={switchHandler}>
               {isLogin
