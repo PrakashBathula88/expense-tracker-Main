@@ -32,7 +32,7 @@ export default function Expenses() {
           "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json"
         );
         const fetchedExpenses = response.data
-          ? Object.values(response.data)
+          ? Object.entries(response.data).map(([id, data]) => ({ id, ...data }))
           : [];
         setexpense(fetchedExpenses);
       } catch (err) {
@@ -46,11 +46,12 @@ export default function Expenses() {
 
     const newexpense = { amount, date, paidto, icons };
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json",
         newexpense
       );
-      setexpense([...expenses, newexpense]);
+      const id = response.data.name;
+      setexpense([...expenses, { id, ...newexpense }]);
 
       setamount("");
       setdate("");
@@ -60,6 +61,19 @@ export default function Expenses() {
       console.error(err);
     }
   };
+
+  const Removingexpenses = async (id) => {
+    try {
+      await axios.delete(
+        `https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense/${id}.json`
+      );
+      setexpense(expenses.filter((expense) => expense.id !== id));
+      console.log("SUCCESSFULLY DELETED");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   return (
     <div className="All-background-items">
@@ -145,7 +159,7 @@ export default function Expenses() {
 
         <button className="save-button">Save</button>
       </form>
-      <Expenselist itemlist={expenses} />
+      <Expenselist itemlist={expenses} onremove={Removingexpenses} />
     </div>
   );
 }
