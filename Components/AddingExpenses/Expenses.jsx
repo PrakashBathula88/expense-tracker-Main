@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 // import { SiBitcoincash } from "react-icons/si";
@@ -17,6 +17,7 @@ import { FaArrowDownUpAcrossLine } from "react-icons/fa6";
 import { MdOutlinePedalBike } from "react-icons/md";
 import "../AddingExpenses/Expenses.css";
 import Expenselist from "../../Expense Items/Expenses";
+import axios from "axios";
 export default function Expenses() {
   const [amount, setamount] = useState("");
   const [date, setdate] = useState("");
@@ -24,18 +25,42 @@ export default function Expenses() {
   const [icons, seticon] = useState("");
   const [expenses, setexpense] = useState([]);
 
-  const submiting = (event) => {
+  useEffect(() => {
+    const fetchingdata = async () => {
+      try {
+        const response = await axios.get(
+          "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json"
+        );
+        const fetchedExpenses = response.data
+          ? Object.values(response.data)
+          : [];
+        setexpense(fetchedExpenses);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchingdata();
+  }, []);
+  const submiting = async (event) => {
     event.preventDefault();
 
     const newexpense = { amount, date, paidto, icons };
+    try {
+      await axios.post(
+        "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json",
+        newexpense
+      );
+      setexpense([...expenses, newexpense]);
 
-    setexpense([...expenses, newexpense]);
-
-    setamount("");
-    setdate("");
-    setpaidto("");
-    seticon("");
+      setamount("");
+      setdate("");
+      setpaidto("");
+      seticon("");
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   return (
     <div className="All-background-items">
       <form onSubmit={submiting}>
