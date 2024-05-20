@@ -3,7 +3,7 @@ import "../SignUp/Signin.css";
 import Profile from "../Profile/Profile";
 import { CgProfile } from "react-icons/cg";
 import AuthContext from "../SignupProvider/Signinprovider";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,12 +14,15 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPassRef = useRef();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const switchHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
+  // const Homerendering = () => {
+  //   return <Navigate to="/"></Navigate>
+  // };
   const submitting = async (event) => {
     event.preventDefault();
 
@@ -68,6 +71,7 @@ export default function SignUp() {
       })
       .then((data) => {
         authCtx.login(data.idtoken);
+      navigate("/")
       })
       .catch((err) => {});
   };
@@ -101,67 +105,52 @@ export default function SignUp() {
       .catch((err) => {});
   };
 
-  const forgotclick=()=>{
+  const forgotclick = () => {
     navigate("/forgot");
+  };
+
+  const homerender=()=>{
+    navigate("/")
   }
 
   return (
-    <>
-      {!profileInComplete && !showProfile ? (
-        <div className="container">
-          <div className="All_sign_in">
-            <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+    <div className="container">
+      <div className="All_sign_in">
+        <h1>{isLogin ? "Login" : "Sign Up"}</h1>
 
-            <form onSubmit={submitting} className="form_elements">
-              <input
-                type="email"
-                placeholder="E-MAIL"
-                ref={emailRef}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                ref={passwordRef}
-                required
-              />
-              {!isLogin && (
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  ref={confirmPassRef}
-                  required
-                />
-              )}
-
-              <button type="submit" className="btn">
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
-
-              {isLogin && <p className="forgot" onClick={forgotclick}>Forgot password</p>}
-            </form>
-            <button className="have" onClick={switchHandler}>
-              {isLogin
-                ? "Don't have an account? Sign Up"
-                : "Have an account? Login"}
-            </button>
-          </div>{" "}
-        </div>
-      ) : !showProfile ? (
-        <div className="profile-incomplete-container">
-          <p>Welcome to expense tracker</p>
-          <h4 onClick={() => setShowProfile(true)}>
-            Complete Profile <CgProfile className="icon" />
-          </h4>
-          {!emailVerification && (
-            <button onClick={emailVerifyHandling} className="btn">
-              Verify Email
-            </button>
+        <form onSubmit={submitting} className="form_elements">
+          <input type="email" placeholder="E-MAIL" ref={emailRef} required />
+          <input
+            type="password"
+            placeholder="Password"
+            ref={passwordRef}
+            required
+          />
+          {!isLogin && (
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              ref={confirmPassRef}
+              required
+            />
           )}
-        </div>
-      ) : (
-        <Profile />
-      )}
-    </>
+
+          <button type="submit" className="btn" onClick={homerender} >
+            {isLogin ? "Login" : "Sign Up"}
+          </button>
+
+          {isLogin && (
+            <p className="forgot" onClick={forgotclick}>
+              Forgot password
+            </p>
+          )}
+        </form>
+        <button className="have" onClick={switchHandler}>
+          {isLogin
+            ? "Don't have an account? Sign Up"
+            : "Have an account? Login"}
+        </button>
+      </div>
+    </div>
   );
 }

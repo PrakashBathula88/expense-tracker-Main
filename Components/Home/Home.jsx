@@ -1,9 +1,10 @@
 import React from 'react'
+import Expenses from '../AddingExpenses/Expenses'
 
 function Home() {
   return (
     <div>
-    <h1>hello</h1>
+    <Expenses/>
     </div>
   )
 }

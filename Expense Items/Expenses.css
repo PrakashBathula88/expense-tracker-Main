@@ -1,0 +1,41 @@
+.expenses-list h3 {
+  position: fixed;
+  font-size: 30px;
+  font-style: italic;
+  display: flex;
+  margin-bottom: 290px;
+  right: 430px;
+  align-items: center;
+  justify-content: center;
+}
+.expenses-list {
+  margin-left: 45%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  position: fixed;
+  width: 400px;
+  height: 150px;
+  padding: 120px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border-radius: 26px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+.expense-details {
+  display: flex;
+  justify-content: space-between;
+  width: 490px;
+}
+.iconic-colors {
+  font-size: 40px;
+  position: fixed;
+  color: green;
+  border-radius: 50%;
+  border: 2px solid green;
+  padding: 4px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.758);
+}
