@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
-// import { SiBitcoincash } from "react-icons/si";
-// import { LiaExchangeAltSolid } from "react-icons/lia";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { BsStars } from "react-icons/bs";
@@ -18,13 +16,32 @@ import { MdOutlinePedalBike } from "react-icons/md";
 import "../AddingExpenses/Expenses.css";
 import Expenselist from "../../Expense Items/Expenses";
 import axios from "axios";
+import { changetheme } from "../Auth/Auth";
+import { FaMoon } from "react-icons/fa";
+import { FaCloudSunRain } from "react-icons/fa";
+import {
+  setExpenses,
+  addExpense,
+  removeExpense,
+  editingExpense,
+} from "../Auth/Auth";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function Expenses() {
+  const dispatch = useDispatch();
   const [amount, setamount] = useState("");
   const [date, setdate] = useState("");
+  const expenses = useSelector((state) => state.expenses);
   const [paidto, setpaidto] = useState("");
   const [icons, seticon] = useState("");
-  const [expenses, setexpense] = useState([]);
+  const [isEditing, setisEditing] = useState(false);
+  const [currentid, setcurrentid] = useState(null);
+  const [visible, setvisible] = useState(false);
+  const [totalexpense, settotal] = useState(0);
+  const darkMode = useSelector((state) => state.theme.darkmode);
 
+
+  
   useEffect(() => {
     const fetchingdata = async () => {
       try {
@@ -34,32 +51,56 @@ export default function Expenses() {
         const fetchedExpenses = response.data
           ? Object.entries(response.data).map(([id, data]) => ({ id, ...data }))
           : [];
-        setexpense(fetchedExpenses);
+        dispatch(setExpenses(fetchedExpenses));
       } catch (err) {
         console.error(err);
       }
     };
     fetchingdata();
-  }, []);
+  }, [dispatch]);
   const submiting = async (event) => {
     event.preventDefault();
 
     const newexpense = { amount, date, paidto, icons };
-    try {
-      const response = await axios.post(
-        "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json",
-        newexpense
-      );
-      const id = response.data.name;
-      setexpense([...expenses, { id, ...newexpense }]);
-
-      setamount("");
-      setdate("");
-      setpaidto("");
-      seticon("");
-    } catch (err) {
-      console.error(err);
+    if (isEditing) {
+      try {
+        await axios.put(
+          `https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json`,
+          newexpense
+        );
+        dispatch(editingExpense({ id: currentid, updatedData: newexpense }));
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json",
+          newexpense
+        );
+        const id = response.data.name;
+        dispatch(addExpense({ id, ...newexpense }));
+      } catch (err) {
+        console.error(err);
+      }
     }
+    setamount("");
+    setdate("");
+    setpaidto("");
+    seticon("");
+    setisEditing(false);
+    setcurrentid(null);
+    setvisible(true);
+  };
+
+  const editingHandlingItems = (expense) => {
+    setamount(expense.amount);
+    setdate(expense.date);
+    setpaidto(expense.paidto);
+    seticon(expense.icons);
+    setisEditing(true);
+    setcurrentid(expense.id);
+    setvisible(false);
   };
 
   const Removingexpenses = async (id) => {
@@ -67,19 +108,32 @@ export default function Expenses() {
       await axios.delete(
         `https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense/${id}.json`
       );
-      setexpense(expenses.filter((expense) => expense.id !== id));
+      dispatch(removeExpense(id));
       console.log("SUCCESSFULLY DELETED");
     } catch (err) {
       console.error(err);
     }
   };
 
+  useEffect(() => {
+    const total = expenses.reduce(
+      (acc, expense) => acc + parseInt(expense.amount),
+      0
+    );
+    settotal(total);
+  }, [expenses]);
 
+  const themeHandle=()=>{
+    dispatch(changetheme())
+  }
   return (
-    <div className="All-background-items">
+    <div className={`All-background-items ${darkMode ? 'dark': 'light'}`}>
+      <button onClick={themeHandle} className="All-button">
+        {darkMode ? " Light"&& <FaCloudSunRain  className="cloudy"/>: " Dark"&&<FaMoon  className="rainy"/>}
+      </button>
       <form onSubmit={submiting}>
         <div className="All-amount-box">
-          <h3>Amount Spent</h3>
+          <h3>{isEditing ? "Edit Expense" : "Amount Spent"}</h3>
           <div className="Enter-amount">
             <FaRupeeSign className="rupee" />
             <input
@@ -157,9 +211,16 @@ export default function Expenses() {
           </p>
         </div>
 
-        <button className="save-button">Save</button>
+        <button className="save-button">{isEditing ? "Update" : "Save"}</button>
       </form>
-      <Expenselist itemlist={expenses} onremove={Removingexpenses} />
+
+      <Expenselist
+        itemlist={expenses}
+        onremove={Removingexpenses}
+        onedit={editingHandlingItems}
+      />
+
+      {totalexpense > 10000 && <button>Premium</button>}
     </div>
   );
 }

@@ -14,7 +14,7 @@ const Nav = () => {
   };
 
   return (
-    <div>
+    <div className="nav-component">
       <ul className="All_routing">
         {!isLoggedIn && (
           <>

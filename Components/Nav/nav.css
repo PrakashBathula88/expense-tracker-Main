@@ -1,11 +1,58 @@
-.All_routing {
-  display: flex;
-  list-style-type: none;
-  justify-content: space-between;
-  width: 200px;
-  text-decoration: none;
+/* nav.css */
+
+.nav-component {
+  background-color: #333;
+  overflow: hidden;
 }
+
+.All_routing {
+  list-style-type: none;
+  margin: 0;
+  padding: 290;
+  width: 580px;
+  margin-left: 60%;
+  display: flex;
+  justify-content: space-around;
+}
+
 .All_routing li {
+  float: left;
+}
+
+.All_routing li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
   text-decoration: none;
-  color: red;
+  position: fixed;
+  font-size: 20px;
+  font-style: italic;
+  
+}
+
+.All_routing li a:hover {
+  background-color: blue;
+  height: 26px;
+  width: 86px;
+  border-radius: 10px;
+  position: fixed;
+}
+
+.logout-button-top {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.logout-button-top:hover {
+  background-color: #d32f2f;
 }

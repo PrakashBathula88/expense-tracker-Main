@@ -6,15 +6,15 @@
   width: 260px;
   position: static;
   margin-top: 20px;
-  backdrop-filter: blur(0.4px);
-  background-image: url("https://c4.wallpaperflare.com/wallpaper/560/670/470/5bd2885491593-wallpaper-preview.jpg");
+  backdrop-filter: blur(1px);
+ position: relative;
 }
 .forgot {
   margin-left: 60px;
   margin-top: -30px;
   font-size: 25px;
-  text-decoration: underline;
-  color: rgb(0, 0, 255);
+   font-style: italic;
+  color: rgb(0, 255, 132);
   text-decoration-color: black;
   cursor: pointer;
 }
@@ -23,20 +23,22 @@
   margin-left: -10px;
   font-size: large;
   cursor: pointer;
-  backdrop-filter: blur(0.4px);
   width: 280px;
-  background-image: url("https://c4.wallpaperflare.com/wallpaper/560/670/470/5bd2885491593-wallpaper-preview.jpg");
+  background-image: url("https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg");
   border-radius: 18px;
+  background-size: cover;
 }
 
 .container {
   display: grid;
   justify-content: center;
   align-items: center;
-  height: 731px;
-  background-image: url("https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  /* height: 681px; */
+  height: 92.7vh;
+  background-image: url("https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
+  position: fixed;
   width: 100vw;
 }
 .All_sign_in h1 {
@@ -117,7 +119,9 @@
 .btn:hover::after {
   transform: skew(45deg) translate(-50%, -50%);
 }
-
+.fongot{
+  color: red;
+}
 .btn:hover {
   color: var(--color2);
 }

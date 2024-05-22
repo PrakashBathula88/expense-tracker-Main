@@ -2,7 +2,6 @@
   /* background-color: rgb(0, 0, 0); */
   color: black;
   height: 92.6vh;
-  
 }
 
 .All-amount-box {
@@ -20,8 +19,7 @@
   background: linear-gradient(
     390deg,
     /* rgba(0, 140, 255, 0.678),
-    rgba(128, 0, 128, 0.308) */
-    #f0f0f0
+    rgba(128, 0, 128, 0.308) */ #f0f0f0
   );
   background-color: #f0f0f0;
   cursor: pointer;
@@ -362,7 +360,7 @@
     rgba(128, 0, 128, 0.308)
   );
   z-index: 1;
-  transition: background 3s;
+  transition: background 33s;
 }
 
 .save-button:hover::before {
@@ -378,4 +376,46 @@
   100% {
     transform: rotateY(360deg);
   }
+}
+
+.light {
+  background-color: white;
+  color: black;
+  position: relative;
+}
+
+.dark {
+  background-color: black;
+  color: white;
+}
+
+.All-background-items {
+  padding: 20px;
+  position: fixed;
+  width: 100vw;
+  height: 100vw;
+}
+.All-button {
+  margin-left: 89%;
+  margin-top: 30px;
+  font-size: 49px;
+  height: 60px;
+  width: 80px;
+  position: absolute;
+  border-radius: 20%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background: linear-gradient(
+    320deg,
+    rgba(0, 140, 255, 0.678),
+    rgba(128, 0, 128, 0.308)
+  );
+  cursor: pointer;
+}
+
+.cloudy {
+  color: rgb(0, 0, 255);
+}
+
+.rainy {
+  color: #6c8094;
 }
