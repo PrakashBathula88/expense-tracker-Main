@@ -40,8 +40,6 @@ export default function Expenses() {
   const [totalexpense, settotal] = useState(0);
   const darkMode = useSelector((state) => state.theme.darkmode);
 
-
-  
   useEffect(() => {
     const fetchingdata = async () => {
       try {
@@ -123,13 +121,15 @@ export default function Expenses() {
     settotal(total);
   }, [expenses]);
 
-  const themeHandle=()=>{
-    dispatch(changetheme())
-  }
+  const themeHandle = () => {
+    dispatch(changetheme());
+  };
   return (
-    <div className={`All-background-items ${darkMode ? 'dark': 'light'}`}>
+    <div className={`All-background-items ${darkMode ? "dark" : "light"}`}>
       <button onClick={themeHandle} className="All-button">
-        {darkMode ? " Light"&& <FaCloudSunRain  className="cloudy"/>: " Dark"&&<FaMoon  className="rainy"/>}
+        {darkMode
+          ? " Light" && <FaCloudSunRain className="cloudy" />
+          : " Dark" && <FaMoon className="rainy" />}
       </button>
       <form onSubmit={submiting}>
         <div className="All-amount-box">

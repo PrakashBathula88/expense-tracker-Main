@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../Nav/nav.css";
 import { useContext } from "react";
 import AuthContext from "../SignupProvider/Signinprovider";
-
+import CartButton from "../Cart/CartButton";
 const Nav = () => {
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isloggedin;
@@ -28,6 +28,7 @@ const Nav = () => {
             <Link to="/signin">Signin</Link>
           </li>
         )}
+        <CartButton />
         <button onClick={handleLogout} className="logout-button-top">
           LOGOUT
         </button>

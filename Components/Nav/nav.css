@@ -32,7 +32,11 @@
 }
 
 .All_routing li a:hover {
-  background-color: blue;
+  background: linear-gradient(
+    320deg,
+    rgba(0, 140, 255, 0.678),
+    rgba(128, 0, 128, 0.308)
+  );
   height: 26px;
   width: 86px;
   border-radius: 10px;
