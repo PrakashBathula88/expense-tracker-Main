@@ -1,9 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import CartPortal from "../Portal/Portal";
 export default function Cartitemlist() {
   return (
     <div>
-        <h1 style={{fontSize:"800px",color:"red"}}>CartItem list</h1>
+      <CartPortal>
+        <h1 style={{ fontSize: "80px", color: "red" }}>CartItem list</h1>
+      </CartPortal>
     </div>
-  )
+  );
 }

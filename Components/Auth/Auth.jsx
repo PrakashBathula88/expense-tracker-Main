@@ -37,9 +37,8 @@ const themeSlice = createSlice({
   },
 });
 
-
 const uiSlice = createSlice({
-  name: "AddCart",
+  name: "Toggle",
   initialState: { cartIsVisible: false },
   reducers: {
     toggle(state) {
@@ -48,14 +47,31 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setExpenses, addExpense, removeExpense, editingExpense } =expensesSlice.actions;
+const cartSlice = createSlice({
+  name: "AddToCart",
+  initialState: [],
+  reducers: {
+    Addcart(state, action) {
+      state.push(action.payload);
+    },
+    removecart(state, action) {
+      return state.filter((expense) => expense.id !== action.payload);
+    },
+  },
+});
+
+export const { setExpenses, addExpense, removeExpense, editingExpense } =
+  expensesSlice.actions;
 
 export const { toggle } = uiSlice.actions;
 export const { changetheme } = themeSlice.actions;
+
+export const { Addcart, removecart } = cartSlice.actions;
 export const store = configureStore({
   reducer: {
     expenses: expensesSlice.reducer,
     theme: themeSlice.reducer,
     portal: uiSlice.reducer,
+    Addingcart: cartSlice.reducer,
   },
 });

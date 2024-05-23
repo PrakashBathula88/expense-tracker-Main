@@ -1,6 +1,6 @@
 import React from "react";
 import "../Cart/Cart.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggle } from "../Auth/Auth";
 export default function CartButton() {
   const dispatch = useDispatch();
