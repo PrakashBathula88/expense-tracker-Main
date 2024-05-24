@@ -6,9 +6,7 @@ import { toggle } from "../Auth/Auth";
 export default function CartButton() {
   const dispatch = useDispatch();
   const sendingCart = useSelector((state) => state.Addingcart.cartitems);
-
-  const cartItemCount = Array.isArray(sendingCart) ? sendingCart.length : 0;
-
+  
   const ToggleCart = () => {
     dispatch(toggle());
   };
@@ -17,7 +15,7 @@ export default function CartButton() {
     <div className="cart-button" onClick={ToggleCart}>
       <button className="cart-button__btn">
         <span className="cart-button__text">My Cart</span>
-        <span className="cart-button__count">{cartItemCount}</span>
+        <span className="cart-button__count">{sendingCart.length}</span>
       </button>
     </div>
   );

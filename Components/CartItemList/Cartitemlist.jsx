@@ -20,6 +20,7 @@ export default function Cartitemlist() {
               <th>Date</th>
               <th>Paid To</th>
               <th>Icons</th>
+              <th>Remove</th>
             </tr>
           </thead>
           <tbody>

@@ -38,8 +38,8 @@ const themeSlice = createSlice({
 });
 
 const uiSlice = createSlice({
-  name: "Toggle",
-  initialState: { cartIsVisible: false },
+  name: "ui",
+  initialState: { cartIsVisible: false},
   reducers: {
     toggle(state) {
       state.cartIsVisible = !state.cartIsVisible;
@@ -47,42 +47,21 @@ const uiSlice = createSlice({
   },
 });
 
-const refreshingData = () => {
-  try {
-    const linewisedata = localStorage.getItem("cart");
-    if (linewisedata === null) {
-      return [];
-    }
-    return JSON.parse(linewisedata);
-  } catch (err) {
-    return [];
-  }
-};
-
-const savedata = (state) => {
-  try {
-    const storingdata = JSON.stringify(state);
-    localStorage.setItem("cart", storingdata);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 const cartSlice = createSlice({
   name: "AddToCart",
   initialState: {
-    cartitems: refreshingData(),
+    cartitems: JSON.parse(localStorage.getItem("cartItems"))||[],
   },
   reducers: {
     Addcart(state, action) {
-      state.cartitems = action.payload;
-      savedata(state.cartitems);
+      state.cartitems = [...state.cartitems,action.payload];
+      localStorage.setItem("cartItems", JSON.stringify(state.cartitems));
     },
     removecart(state, action) {
       state.cartitems = state.cartitems.filter(
         (expense) => expense.id !== action.payload
       );
-      savedata(state.cartitems);
+      localStorage.setItem("cartItems", JSON.stringify(state.cartitems));
     },
   },
 });
@@ -99,7 +78,7 @@ export const store = configureStore({
   reducer: {
     expenses: expensesSlice.reducer,
     theme: themeSlice.reducer,
-    portal: uiSlice.reducer,
+    ui: uiSlice.reducer,
     Addingcart: cartSlice.reducer,
   },
 });

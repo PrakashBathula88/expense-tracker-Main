@@ -17,7 +17,7 @@ import "../AddingExpenses/Expenses.css";
 import Expenselist from "../../Expense Items/Expenses";
 import axios from "axios";
 import { changetheme } from "../Auth/Auth";
-import { FaMoon } from "react-icons/fa";
+import { FaCloudMoonRain } from "react-icons/fa6";
 import { FaCloudSunRain } from "react-icons/fa";
 import {
   setExpenses,
@@ -129,7 +129,9 @@ export default function Expenses() {
       <button onClick={themeHandle} className="All-button">
         {darkMode
           ? " Light" && <FaCloudSunRain className="cloudy" />
-          : " Dark" && <FaMoon className="rainy" />}
+          : " Dark" && <FaCloudMoonRain className="rainy"/>}
+
+          
       </button>
       <form onSubmit={submiting}>
         <div className="All-amount-box">
@@ -220,7 +222,7 @@ export default function Expenses() {
         onedit={editingHandlingItems}
       />
 
-      {totalexpense > 10000 && <button>Premium</button>}
+      {totalexpense > 10000 && <button className="premiuum">Premium</button>}
     </div>
   );
 }
