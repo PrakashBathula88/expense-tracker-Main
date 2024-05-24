@@ -18,10 +18,12 @@ const portals = document.getElementById("Cart");
 
 const CartPortal = (props) => {
   return (
-    <Fragment className="aLL-BACK">
+    <Fragment>
+      <div  className="aLL-BACK">
       {ReactDOM.createPortal(<Backdrop Onclose={props.Onclose} />, portals)}
-   
-      <ModalOverlay>{props.children}</ModalOverlay>
+      {ReactDOM.createPortal(<ModalOverlay>{props.children}</ModalOverlay>, portals)}
+      {/* <ModalOverlay>{props.children}</ModalOverlay> */}
+      </div>
     </Fragment>
   );
 };

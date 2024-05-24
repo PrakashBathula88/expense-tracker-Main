@@ -47,15 +47,42 @@ const uiSlice = createSlice({
   },
 });
 
+const refreshingData = () => {
+  try {
+    const linewisedata = localStorage.getItem("cart");
+    if (linewisedata === null) {
+      return [];
+    }
+    return JSON.parse(linewisedata);
+  } catch (err) {
+    return [];
+  }
+};
+
+const savedata = (state) => {
+  try {
+    const storingdata = JSON.stringify(state);
+    localStorage.setItem("cart", storingdata);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const cartSlice = createSlice({
   name: "AddToCart",
-  initialState: [],
+  initialState: {
+    cartitems: refreshingData(),
+  },
   reducers: {
     Addcart(state, action) {
-      state.push(action.payload);
+      state.cartitems = action.payload;
+      savedata(state.cartitems);
     },
     removecart(state, action) {
-      return state.filter((expense) => expense.id !== action.payload);
+      state.cartitems = state.cartitems.filter(
+        (expense) => expense.id !== action.payload
+      );
+      savedata(state.cartitems);
     },
   },
 });
@@ -67,6 +94,7 @@ export const { toggle } = uiSlice.actions;
 export const { changetheme } = themeSlice.actions;
 
 export const { Addcart, removecart } = cartSlice.actions;
+export default cartSlice.reducer;
 export const store = configureStore({
   reducer: {
     expenses: expensesSlice.reducer,

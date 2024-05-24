@@ -1,27 +1,14 @@
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "../Expense Items/Expenses.css";
-
+import { Addcart } from "../Components/Auth/Auth";
 const Expenselist = ({ itemlist, onremove, onedit }) => {
-  const sendingCart = useSelector((state) => state.AddToCart);
+  const dispatch = useDispatch();
+ 
 
-  const submiting = () => {
-    fetch(
-      "https://expense-tracker-app-d6619-default-rtdb.firebaseio.com/Expense.json",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(sendingCart),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Adding Items to the cart");
-        console.log(data);
-      })
-      .catch((err) => console.error(err));
-  };
+  const submiting=()=>{
+    dispatch(Addcart(itemlist));
+    alert("add to the Cart")
+  }
   return (
     <div className="expenses-list">
       <h3>Expenses List</h3>
