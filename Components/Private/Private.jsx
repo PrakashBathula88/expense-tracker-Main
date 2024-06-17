@@ -8,7 +8,9 @@ export default function Private() {
   const isLoggedIn = Authctx.isloggedin;
 
   if (!isLoggedIn) {
-    return <Navigate to="/signin"></Navigate>
+    return <Navigate to="/signin" />;
+  }else{
+    return <Home/>
   }
-  return <Home />;
+ 
 }

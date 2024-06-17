@@ -50,6 +50,9 @@ export default function Expenses() {
           ? Object.entries(response.data).map(([id, data]) => ({ id, ...data }))
           : [];
         dispatch(setExpenses(fetchedExpenses));
+        if(fetchedExpenses.length>0){
+          setvisible(true);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -216,13 +219,13 @@ export default function Expenses() {
         <button className="save-button">{isEditing ? "Update" : "Save"}</button>
       </form>
 
-      <Expenselist
+     {visible &&<Expenselist
         itemlist={expenses}
         onremove={Removingexpenses}
         onedit={editingHandlingItems}
       />
-
-      {totalexpense > 10000 && <button className="premiuum">Premium</button>}
+}
+      {totalexpense > 10000 && <button className="premiuum"  onClick={()=> alert("Premium Activated")}>Premium</button>}
     </div>
   );
 }

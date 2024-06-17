@@ -15,6 +15,7 @@ const Nav = () => {
 
   return (
     <div className="nav-component">
+       
       <ul className="All_routing">
         {!isLoggedIn && (
           <>
@@ -28,6 +29,7 @@ const Nav = () => {
             <Link to="/signin">Signin</Link>
           </li>
         )}
+        
         <CartButton />
         <button onClick={handleLogout} className="logout-button-top">
           LOGOUT

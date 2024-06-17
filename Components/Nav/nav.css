@@ -1,4 +1,4 @@
-/* nav.css */
+
 
 .nav-component {
   background-color: #333;
@@ -7,10 +7,11 @@
 
 .All_routing {
   list-style-type: none;
-  margin: 0;
+  margin: 10px 820px;
   padding: 290;
-  width: 580px;
-  margin-left: 60%;
+  width: 610px;
+
+  max-width: 610px;
   display: flex;
   justify-content: space-around;
 }
@@ -25,7 +26,7 @@
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  position: fixed;
+ 
   font-size: 20px;
   font-style: italic;
   
@@ -38,16 +39,16 @@
     rgba(128, 0, 128, 0.308)
   );
   height: 26px;
-  width: 86px;
   border-radius: 10px;
-  position: fixed;
+  
 }
 
 .logout-button-top {
   background-color: #f44336;
   color: white;
   border: none;
-  padding: 14px 20px;
+  width: 100px;
+  padding: 14px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -55,8 +56,10 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 4px;
+  height: 48px;
 }
 
 .logout-button-top:hover {
   background-color: #d32f2f;
 }
+

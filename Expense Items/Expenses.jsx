@@ -1,6 +1,6 @@
-
 import { useDispatch } from "react-redux";
-import "../Expense Items/Expenses.css"
+import { CSVLink } from "react-csv";
+import "../Expense Items/Expenses.css";
 import { Addcart } from "../Components/Auth/Auth";
 
 const Expenselist = ({ itemlist, onremove, onedit }) => {
@@ -11,6 +11,17 @@ const Expenselist = ({ itemlist, onremove, onedit }) => {
     alert("Added to the Cart");
   };
 
+  const headers = [
+    { label: "Amount", key: "amount" },
+    { label: "Date", key: "date" },
+    { label: "Paid To", key: "paidto" },
+  ];
+
+  const csvfiledata = itemlist.map((expense) => ({
+    amount: expense.amount,
+    date: expense.date,
+    paidto: expense.paidto,
+  }));
   return (
     <div className="expenses-table-container">
       <h3>Expenses List</h3>
@@ -21,7 +32,7 @@ const Expenselist = ({ itemlist, onremove, onedit }) => {
             <th>Date</th>
             <th>Paid To</th>
             <th>Icon</th>
-            <th>Actions</th>
+            <th className="Actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -32,9 +43,32 @@ const Expenselist = ({ itemlist, onremove, onedit }) => {
               <td>{expense.paidto}</td>
               <td>{expense.icons}</td>
               <td>
-                <button onClick={() => onedit(expense)} className="edit-button">Edit</button>
-                <button onClick={() => onremove(expense.id)} className="delete-button">Delete</button>
-                <button onClick={()=>{submiting(expense)}} className="cart-button">Cart</button>
+                <button onClick={() => onedit(expense)} className="edit-button">
+                  Edit
+                </button>
+                <button
+                  onClick={() => onremove(expense.id)}
+                  className="delete-button"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    submiting(expense);
+                  }}
+                  className="cartutton"
+                >
+                  Cart
+                </button>
+                <button>
+                  <CSVLink
+                    data={csvfiledata}
+                    headers={headers}
+                    filename={"expenses.csv"}
+                  >
+                    Download
+                  </CSVLink>
+                </button>
               </td>
             </tr>
           ))}

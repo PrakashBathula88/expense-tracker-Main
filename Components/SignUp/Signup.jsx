@@ -1,15 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import "../SignUp/Signin.css";
-import Profile from "../Profile/Profile";
-import { CgProfile } from "react-icons/cg";
 import AuthContext from "../SignupProvider/Signinprovider";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [isLogin, setIsLogin] = useState(true);
-  const [profileInComplete, setProfileInComplete] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [emailVerification, setEmailVerification] = useState(false);
   const authCtx = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -20,20 +15,14 @@ export default function SignUp() {
     setIsLogin((prevState) => !prevState);
   };
 
-  // const Homerendering = () => {
-  //   return <Navigate to="/"></Navigate>
-  // };
-  const submitting = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    const confirm = confirmPassRef.current
-      ? confirmPassRef.current.value
-      : null;
-
+    const email = emailRef.current?.value;
+  const password = passwordRef.current?.value;
+  const confirm = confirmPassRef.current?.value;
     if (!isLogin && password !== confirm) {
-      console.error("PASSWORDS DO NOT MATCH");
+     alert("Passwords does not matching");
       return;
     }
 
@@ -46,79 +35,43 @@ export default function SignUp() {
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
     }
 
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          setProfileInComplete(true);
-          setEmailVerification(false);
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            const errorMessage = "Authentication failed";
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        authCtx.login(data.idtoken);
-      navigate("/")
-      })
-      .catch((err) => {});
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error.message || "Authentication failed");
+      }
+
+      const data = await response.json();
+      authCtx.login(data.idToken);
+      navigate("/"); 
+    } catch (error) {
+      console.error("Authentication Error:", error.message);
+    
+    }
   };
 
-  const emailVerifyHandling = () => {
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDbj2ZqFZQTWUUSIu5W6zB9GdR8kjJlTWI";
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        requestType: "VERIFY_EMAIL",
-        idToken: authCtx.token,
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          setEmailVerification(true);
-          alert("VERIFICATION EMAIL SENT = PLEASE CHECK YOUR EMAIL INBOX");
-          return res.json();
-        } else {
-          return res.json().then((data) => {
-            const errorMessage = "ERROR verification email";
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {})
-      .catch((err) => {});
-  };
-
-  const forgotclick = () => {
+  const handleForgotClick = () => {
     navigate("/forgot");
   };
-
-  const homerender=()=>{
-    navigate("/")
-  }
 
   return (
     <div className="container">
       <div className="All_sign_in">
         <h1>{isLogin ? "Login" : "Sign Up"}</h1>
 
-        <form onSubmit={submitting} className="form_elements">
+        <form onSubmit={handleSubmit} className="form_elements">
           <input type="email" placeholder="E-MAIL" ref={emailRef} required />
           <input
             type="password"
@@ -135,12 +88,12 @@ export default function SignUp() {
             />
           )}
 
-          <button type="submit" className="btn" onClick={homerender} >
+          <button type="submit" className="btn">
             {isLogin ? "Login" : "Sign Up"}
           </button>
 
           {isLogin && (
-            <p className="forgot" onClick={forgotclick}>
+            <p className="forgot" onClick={handleForgotClick}>
               Forgot password
             </p>
           )}
